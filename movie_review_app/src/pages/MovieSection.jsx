@@ -6,4 +6,3 @@ function MovieSection(){
         </>
     );
 }
-export default MovieSection;
