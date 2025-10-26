@@ -1,0 +1,37 @@
+.login-form {
+  width: 100%;
+}
+
+.google-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 24px;
+  background: white;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #2d3748;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.google-btn:hover {
+  background: #f7fafc;
+  border-color: #cbd5e0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  transform: translateY(-2px);
+}
+
+.google-btn:active {
+  transform: translateY(0);
+}
+
+.google-icon {
+  width: 20px;
+  height: 20px;
+}
