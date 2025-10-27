@@ -1,7 +1,7 @@
 function Profile(){
     return(
         <>
-        <p>Profile Page</p>
+        <h1>Profile Page</h1>
         </>
     );
 }
