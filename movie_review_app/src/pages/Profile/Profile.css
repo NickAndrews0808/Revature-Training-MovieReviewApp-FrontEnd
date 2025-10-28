@@ -1,0 +1,40 @@
+.profile-card {
+    display: flex;
+    align-items: center;
+    background-color: #f8f8f8;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-avatar {
+    margin-right: 20px;
+}
+
+.avatar {
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border: 3px solid #3498db;
+}
+
+.profile-info p {
+    margin: 6px 0;
+    font-size: 16px;
+}
+
+.edit-btn {
+    margin-top: 20px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.edit-btn:hover {
+    background-color: #2980b9;
+}
