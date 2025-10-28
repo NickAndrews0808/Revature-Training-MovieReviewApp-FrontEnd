@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+
 import './App.css'
 import { BrowserRouter, Route, Routes, Link } from 'react-router-dom'
 import Profile from './pages/Profile/Profile'
 import Dashboard from './pages/Dashboard/Dashboard'
-import MovieList from './pages/MovieList'
+import MovieList from './pages/Movie/MovieList'
+import NavLinks from './components/NavLinks'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -15,9 +15,7 @@ function App() {
       <BrowserRouter>
       <header>
       <h4>Home</h4>
-      <nav>
-        <Link to="/Profile">Profile</Link> | <Link to="/Dashboard">Dashboard</Link> | <Link to="/Movielist">Movielist</Link>
-      </nav>
+        <NavLinks />
       </header>
       
       <Routes>
