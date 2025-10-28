@@ -1,4 +1,6 @@
 import '../Dashboard/Dashboard.css'
+import MovieDetail from './MovieDetail';
+import { Link } from 'react-router-dom';
 function MovieList(){
     const movies = [
         {
@@ -59,7 +61,9 @@ function MovieList(){
                     <td>
                     <button className="btn-primary">+ Add Review</button>
                     <button className="btn-secondary">Add to Watchlist</button>
-                    <button>View</button>
+                    <Link to={`/MovieDetail/${movies.id}`}>
+                        <button>View</button>
+                    </Link>
                     </td>
                 </tr>
                 ))}
