@@ -34,7 +34,7 @@ export const authService = {
   handleGoogleCallback: async (code, state) => {
     // Verify state to prevent CSRF attacks
     const savedState = sessionStorage.getItem("oauth_state");
-    if (state !== savedState) {
+    if (savedState && state !== savedState) {
       throw new Error("Invalid state parameter - possible CSRF attack");
     }
     sessionStorage.removeItem("oauth_state");
@@ -66,8 +66,9 @@ export const authService = {
   },
 
   logout: () => {
-    localStorage.removeItem(CONFIG.STORAGE_KEYS.ACCESS_TOKEN);
-    localStorage.removeItem(CONFIG.STORAGE_KEYS.REFRESH_TOKEN);
+    localStorage.removeItem(STORAGE_KEYS.ACCESS_TOKEN);
+    localStorage.removeItem(STORAGE_KEYS.REFRESH_TOKEN);
+    window.location.href = '/login';
   },
 
   isAuthenticated: () => {

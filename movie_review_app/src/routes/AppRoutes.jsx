@@ -2,44 +2,54 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ROUTES } from '../constants/routeConstants';
 import Login from '../pages/Login/Login';
 import OAuth2Redirect from '../pages/OAuth2Redirect/OAuth2Redirect';
-// import Dashboard from '../pages/Dashboard/Dashboard';
-// import Profile from '../pages/Profile/Profile';
-// import NotFound from '../pages/NotFound/NotFound';
+import Dashboard from '../pages/Dashboard/Dashboard';
+import Profile from '../pages/Profile/Profile';
+import { authService } from '../api/services/authService';
+
+// Protected Route Component
+function ProtectedRoute({ children }) {
+  return authService.isAuthenticated() ? children : <Navigate to={ROUTES.LOGIN} replace />;
+}
 
 function AppRoutes() {
-  const isAuthenticated = () => {
-    return !!localStorage.getItem('accessToken');
-  };
-
   return (
     <BrowserRouter>
       <Routes>
-        {/* Redirect root to login */}
-        <Route 
-          path={ROUTES.HOME} 
-          element={<Navigate to={ROUTES.LOGIN} replace />} 
-        />
-        
-        {/* Login route */}
+        {/* Public Routes */}
         <Route path={ROUTES.LOGIN} element={<Login />} />
-        
-        {/* OAuth2 redirect callback */}
         <Route path={ROUTES.OAUTH2_REDIRECT} element={<OAuth2Redirect />} />
         
-        {/* Protected routes */}
-        {/* <Route 
+        {/* Protected Routes */}
+        <Route 
           path="/dashboard" 
-          element={isAuthenticated() ? <Dashboard /> : <Navigate to={ROUTES.LOGIN} />} 
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          } 
         />
         
         <Route 
           path={ROUTES.USER_PROFILE} 
-          element={isAuthenticated() ? <Profile /> : <Navigate to={ROUTES.LOGIN} />} 
-        /> */}
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          } 
+        />
+        
+        {/* Redirect root to login or dashboard based on auth */}
+        <Route 
+          path={ROUTES.HOME} 
+          element={
+            authService.isAuthenticated() 
+              ? <Navigate to="/dashboard" replace /> 
+              : <Navigate to={ROUTES.LOGIN} replace />
+          } 
+        />
         
         {/* 404 */}
-        {/* <Route path={ROUTES.NOT_FOUND} element={<NotFound />} />
-        <Route path="*" element={<Navigate to={ROUTES.NOT_FOUND} />} /> */}
+        <Route path="*" element={<Navigate to={ROUTES.LOGIN} />} />
       </Routes>
     </BrowserRouter>
   );
