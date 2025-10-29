@@ -1,0 +1,75 @@
+/* Movie Info Section */
+.movie-info {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 32px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.movie-info h2 {
+  font-size: 32px;
+  color: #1f2937;
+  margin-bottom: 16px;
+}
+
+.movie-info p {
+  font-size: 16px;
+  color: #4b5563;
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+/* Reviews Section */
+.movie-reviews-section {
+  margin-top: 32px;
+}
+
+.reviews-header {
+  font-size: 24px;
+  font-weight: bold;
+  color: #1f2937;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Loading and Empty States */
+.loading-message {
+  text-align: center;
+  padding: 40px;
+  font-size: 16px;
+  color: #6b7280;
+}
+
+.no-reviews-message {
+  text-align: center;
+  padding: 40px;
+  background-color: #f9fafb;
+  border-radius: 8px;
+  border: 2px dashed #d1d5db;
+  color: #6b7280;
+  font-size: 16px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .movie-info h2 {
+    font-size: 24px;
+  }
+  
+  .reviews-header {
+    font-size: 20px;
+  }
+  
+  .movie-info,
+  .movie-reviews-section {
+    padding: 16px;
+  }
+}

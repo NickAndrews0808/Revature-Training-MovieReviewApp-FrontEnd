@@ -1,0 +1,84 @@
+/* Review Card Container */
+.review-card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 24px;
+  margin-bottom: 16px;
+  border: 1px solid #e5e7eb;
+}
+
+/* Header Section */
+.review-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.rating-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stars {
+  font-size: 24px;
+}
+
+.star-filled {
+  color: #fbbf24;
+}
+
+.star-empty {
+  color: #d1d5db;
+}
+
+.rating-text {
+  font-size: 14px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.review-date {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* Username Section */
+.review-user {
+  margin-bottom: 12px;
+}
+
+.user-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #4b5563;
+}
+
+.username {
+  color: #2563eb;
+  font-weight: 600;
+}
+
+/* Review Text */
+.review-text {
+  color: #374151;
+  line-height: 1.625;
+}
+
+/* Container for multiple reviews (example usage) */
+.reviews-container {
+  max-width: 768px;
+  margin: 0 auto;
+  padding: 24px;
+  background-color: #f9fafb;
+  min-height: 100vh;
+}
+
+.reviews-title {
+  font-size: 30px;
+  font-weight: bold;
+  color: #1f2937;
+  margin-bottom: 24px;
+}
