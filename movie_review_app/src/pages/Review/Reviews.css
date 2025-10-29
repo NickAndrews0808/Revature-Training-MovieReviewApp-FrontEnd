@@ -1,0 +1,18 @@
+.reviews-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+  background-color: #f9fafb;
+  min-height: 100vh;
+}
+
+.reviews-list {
+  margin-top: 48px;
+}
+
+.reviews-list h2 {
+  font-size: 28px;
+  font-weight: bold;
+  color: #1f2937;
+  margin-bottom: 24px;
+}
