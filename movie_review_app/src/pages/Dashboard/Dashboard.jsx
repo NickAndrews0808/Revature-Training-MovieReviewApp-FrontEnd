@@ -2,65 +2,95 @@ import { Link } from 'react-router-dom';
 import './Dashboard.css'
 import NavLinks from '../../components/NavLinks';
 function Dashboard(){
+    const movies = [
+        {
+            id: 1,
+            title: "Avengers",
+            genre: "Action",
+            year: 2024,
+            rating: 4.5,
+            reviews: 1247,
+            image: "/images/The_Avengers.jpg",
+        },
+        {
+            id: 2,
+            title: "The Godfather",
+            genre: "Crime-Thriller",
+            year: 2023,
+            rating: 4.8,
+            reviews: 932,
+            image: "/images/Godfather.jpg",
+        },
+        {
+            id: 3,
+            title: "Schindler's List",
+            genre: "Historical Drama",
+            year: 2023,
+            rating: 4.8,
+            reviews: 932,
+            image: "/images/Schindler's_List.jpg",
+        }
+        // Add more movies here
+    ];
+    const sortedMovies = movies.sort((a, b) => b.rating - a.rating);
+
     return (
-        <div className="dashboard">
-        <header className="dashboard-header">
-            <h1>MovieReview</h1>
-            <nav>
-            <NavLinks />
-            </nav>
-            <input className="search-bar" placeholder="Search movies..." />
-        </header>
+        <div className="container mt-4">
 
-        <section className="stats-section">
-            <div className="stat-card">
-            <p>Total Reviews</p>
-            <h2>342</h2>
-            <span className="positive">+28</span>
-            </div>
-            <div className="stat-card">
-            <p>Movies Watched</p>
-            <h2>156</h2>
-            <span className="positive">+12</span>
-            </div>
-            <div className="stat-card">
-            <p>Watchlist Items</p>
-            <h2>47</h2>
-            <span className="negative">-5</span>
-            </div>
-        </section>
+            {/* POPULAR MOVIES */}
+            <section className="popular-movies">
+            <h3 className="text-primary mb-3">Popular Movies</h3>
+            <p className="text-muted mb-4">Browse and review the latest trending movies</p>
+            <div className="table-responsive">
+                <table className="table table-striped table-hover align-middle">
+                <thead className="table-dark">
+                    <tr>
+                    <th>Rank</th>
+                    <th>Poster</th>
+                    <th>Title</th>
+                    <th>Genre</th>
+                    <th>Year</th>
+                    <th>Rating</th>
+                    <th>Reviews</th>
+                    
+                    </tr>
+                </thead>
+                <tbody>
+                {sortedMovies.map((movie, index) => (
+                <tr key={movie.id}>
+                    <td><strong>{index + 1}</strong></td>
+                    <td>
+                    <img
+                        src={movie.image}
+                        alt="Poster"
+                        className="rounded"
+                        style={{ width: "60px", height: "90px", objectFit: "cover" }}
+                    />
+                    </td>
+                    <td>{movie.title}</td>
+                    <td>
+                    <span className="badge bg-secondary">{movie.genre}</span>
+                    </td>
+                    <td>{movie.year}</td>
+                    <td>⭐ {movie.rating}</td>
+                    <td>{movie.reviews.toLocaleString()}</td>
+                    <td>
+                    <div className="d-flex gap-2">
+                        <button className="btn btn-primary btn-sm">+ Add Review</button>
+                        <Link to={`/MovieDetail/${movie.id}`}>
+                            <button className="btn btn-outline-secondary btn-sm">
+                            View
+                            </button>
+                        </Link>
+                    </div>
+                    </td>
+                </tr>
+                ))}
+                </tbody>
 
-        <section className="popular-movies">
-            <h3>Popular Movies</h3>
-            <p>Browse and review the latest movies</p>
-            <table>
-            <thead>
-                <tr>
-                <th>Poster</th>
-                <th>Title</th>
-                <th>Genre</th>
-                <th>Year</th>
-                <th>Rating</th>
-                <th>Reviews</th>
-                <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                <td><img src="/poster1.jpg" alt="Poster" /></td>
-                <td>The Quantum Paradox</td>
-                <td><span className="tag sci-fi">Sci-Fi</span></td>
-                <td>2024</td>
-                <td>⭐ 4.5</td>
-                <td>1,247</td>
-                <td>
-                    <button className="btn-primary">+ Add Review</button>
-                    <button className="btn-secondary">Add to Watchlist</button>
-                </td>
-                </tr>
-            </tbody>
-            </table>
-        </section>
+                </table>
+            </div>
+            </section>
         </div>
     );
 }
