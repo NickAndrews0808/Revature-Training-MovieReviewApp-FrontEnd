@@ -25,6 +25,15 @@
   margin-top: 32px;
 }
 
+.movie-container {
+  padding-top: 200px; /* adjust based on your header height */
+  display: flex;
+  flex-direction: column;
+  gap: 40px; /* space between movie info and reviews */
+  max-width: 900px;
+  margin: 0 auto; /* center content horizontally */
+}
+
 .reviews-header {
   font-size: 24px;
   font-weight: bold;
