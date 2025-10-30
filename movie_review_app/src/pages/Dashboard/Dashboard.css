@@ -85,6 +85,7 @@ body {
 .popular-movies {
     background: var(--card-bg);
     border-radius: 12px;
+    margin-top: 10rem;
     padding: 1.5rem;
     box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
