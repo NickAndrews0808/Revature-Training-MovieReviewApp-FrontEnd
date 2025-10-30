@@ -19,6 +19,7 @@ function Dashboard(){
     }, []);
 
     const sortedMovies = [...movies].sort((a, b) => b.averageRating - a.averageRating);
+    const topMovies = sortedMovies.slice(0,5);
 
     if (loading) return <p>Loading movies...</p>;
     if (error) return <p>Error: {error}</p>;
@@ -44,7 +45,7 @@ function Dashboard(){
                     </tr>
                 </thead>
                 <tbody>
-                {sortedMovies.map((movie, index) => (
+                {topMovies.map((movie, index) => (
                 <tr key={movie.id}>
                     <td><strong>{index + 1}</strong></td>
                     <td>
