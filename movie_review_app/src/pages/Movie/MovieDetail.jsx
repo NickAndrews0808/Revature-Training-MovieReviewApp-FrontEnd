@@ -4,44 +4,12 @@ import Review from "../../components/review/Review";
 import "../Dashboard/Dashboard.css";
 import "./MovieDetail.css";
 // Added a MovieDetail.css but we can use bootstrap if we want
-    const movies = [
-        {
-            id: 1,
-            director: "Joss Whedon",
-            title: "Avengers",
-            genre: "Action",
-            year: 2024,
-            rating: 4.5,
-            image: "/images/The_Avengers.jpg",
-            desc: "Nick Fury forms the Avengers—Iron Man, Captain America, Thor, Hulk, Black Widow, and Hawkeye—to stop Loki from invading Earth with an alien army. After initial conflicts, they learn to work together and defeat Loki in New York, saving the world."
-        },
-        {
-            id: 2,
-            director: "Francis Ford Coppola",
-            title: "The Godfather",
-            genre: "Crime-Thriller",
-            year: 2023,
-            rating: 4.8,
-            image: "/images/Godfather.jpg",
-            desc: "Michael Corleone reluctantly joins his family's mafia business after an attempt on his father’s life and rises to become a powerful, ruthless leader."
-        },
-        {
-            id: 3,
-            director: "Steven Spielberg",
-            title: "Schindler's List",
-            genre: "Historical Drama",
-            year: 2023,
-            rating: 4.8,
-            image: "/images/Schindler's_List.jpg",
-            desc: "Oskar Schindler saves over a thousand Jews from the Holocaust by employing them in his factories, risking everything to protect them from the Nazis."
-        }
-    ];
 const MovieDetail = () => {
     const { id } = useParams(); // get the movie ID from the URL
+    const [movie, setMovie] = useState(null);
     const [reviews, setReviews] = useState([]);
     const [loading, setLoading] = useState(true);
-
-    const movie = movies.find(m => m.id === parseInt(id));
+    const [error, setError] = useState(null);
 
     // Hey Justin I added this temporarily to see what looks good
     useEffect(() => {
@@ -53,7 +21,12 @@ const MovieDetail = () => {
         const fetchMovieAndReviews = async () => {
         try {
             setLoading(true);
-            
+            setError(null);
+            // Fetch movie details
+            const movieRes = await fetch(`http://localhost:8080/api/movies/${id}`);
+            if (!movieRes.ok) throw new Error("Failed to fetch movie");
+            const movieData = await movieRes.json();
+            setMovie(movieData);
             // Simulate fetching reviews from backend
             // In production, this would be: const response = await fetch(`/api/movies/${id}/reviews`);
             const mockReviews = [
@@ -88,16 +61,18 @@ const MovieDetail = () => {
         {/* Movie Details Section */}
         <div className="movie-info">
             <img
-            src={movie.image}
-            alt={movie.title}
-            className="img-fluid mb-3"
+            src={movie?.imageUrl || "/images/placeholder.jpg"}
+            alt={movie?.name || "Movie Poster"}
+            onError={(e) => { e.target.src = "/images/placeholder.jpg"; }}
+            style={{ width: "200px", height: "300px", objectFit: "cover", borderRadius: "8px", border: "1px solid black" }}
             />
-            <h2>{movie.title}</h2>
-            <p><strong>Director:</strong> {movie.director}</p>
-            <p><strong>Genre:</strong> {movie.genre}</p>
-            <p><strong>Year:</strong> {movie.year}</p>
-            <p><strong>Rating:</strong> {movie.rating} ⭐</p>
-            <p><strong>Description:</strong> {movie.desc}</p>
+
+            <h2>{movie?.name}</h2>
+            <p><strong>Director:</strong> {movie?.director}</p>
+            <p><strong>Genre:</strong> {movie?.genre}</p>
+            <p><strong>Year:</strong> {movie?.year}</p>
+            <p><strong>Rating:</strong> {movie?.averageRating} ⭐</p>
+            <p><strong>Description:</strong> {movie?.description}</p>
         </div>
 
         {/* Reviews Section */}
