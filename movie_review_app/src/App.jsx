@@ -21,6 +21,14 @@ function App() {
             <NavLinks />
           </nav>
           <input className="search-bar" placeholder="Search movies..." />
+          <Link to="/Profile" className='profile-image-link'>
+            <img
+              src = "/images/Profile.jpg"
+              alt='Profile'
+              className='profile-image'
+            />
+          </Link>
+          
         </header>
       
         <Routes>
@@ -29,7 +37,7 @@ function App() {
           <Route path="/Dashboard" element={<Dashboard />} />
           <Route path="/Movielist" element={<MovieList />} />
           <Route path="/MovieDetail/:id" element={<MovieDetail />}/>
-          <Route path="/Reviews" element={<Reviews />} /> 
+          <Route path="/Reviews" element={<Reviews />} />
         </Routes>
       </BrowserRouter>
     </>

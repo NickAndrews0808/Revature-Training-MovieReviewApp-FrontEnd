@@ -23,7 +23,7 @@ const MovieDetail = () => {
             setLoading(true);
             setError(null);
             // Fetch movie details
-            const movieRes = await fetch(`http://localhost:8080/api/movies/${id}`);
+            const movieRes = await fetch(`http://localhost:8087/api/movies/${id}`);
             if (!movieRes.ok) throw new Error("Failed to fetch movie");
             const movieData = await movieRes.json();
             setMovie(movieData);

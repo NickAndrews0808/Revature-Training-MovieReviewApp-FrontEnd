@@ -16,22 +16,23 @@ const Profile = () => {
         <div className="container mt-5">
         <h2 className="text-center mb-4 text-primary">User Profile</h2>
 
-        <div className="card shadow-lg p-4 border-0 rounded-4 mx-auto" style={{ maxWidth: "600px" }}>
+        <div className="card shadow-lg p-4 border-0 rounded-4 mx-auto profile-card" style={{ maxWidth: "600px" }}>
             <div className="d-flex flex-column align-items-center text-center">
             <img
                 src="/images/Profile.jpg"
                 alt="User Avatar"
                 className="rounded-circle mb-3 border border-3 border-primary"
+                style={{ width: "120px", height: "120px" }}
             />
-            <h4 className="fw-bold">{user.name}</h4>
-            <p className="text-muted">{user.role}</p>
+            <h4 className="fw-bold"style={{ fontSize: "1.8rem" }}>{user.name}</h4>
+            <p className="text-muted" style={{ fontSize: "1.8rem" }}>{user.role}</p>
             </div>
 
             <hr />
 
             <div className="mt-3">
-            <p><strong>Email:</strong> {user.email}</p>
-            <p><strong>Member Since:</strong> {user.joined}</p>
+            <p style={{ fontSize: "1.8rem" }}><strong>Email:</strong> {user.email}</p>
+            <p style={{ fontSize: "1.8rem" }}><strong>Member Since:</strong> {user.joined}</p>
             </div>
 
             <div className="text-center mt-4">
