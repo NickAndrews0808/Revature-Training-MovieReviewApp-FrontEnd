@@ -8,7 +8,7 @@ function Dashboard(){
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetch('http://localhost:8080/api/movies')
+        fetch('http://localhost:8087/api/movies')
             .then(res => {
                 if (!res.ok) throw new Error('Failed to fetch movies');
                 return res.json();

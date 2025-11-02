@@ -42,7 +42,7 @@ body {
 }
 
 .search-bar {
-    margin-right: 200px;
+    margin-right: -500px;
     border: 1px solid var(--border);
     border-radius: 99px;
     padding: 1rem 15rem;
@@ -155,4 +155,26 @@ img {
 
 .btn-secondary:hover {
     background: #f3f4f6;
+}
+
+.profile-image-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 100px; /* keeps spacing similar to before */
+}
+
+.profile-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #000000;
+    object-fit: cover;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+    cursor: pointer;
+}
+
+.profile-image:hover {
+    transform: scale(1.05);
+    border-color: #a50b0b;
 }
