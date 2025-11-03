@@ -55,7 +55,7 @@ const Review = ({ rating, date, username, reviewText }) => {
 };
 
 // Examples
-const ReviewExample = () => {
+/*const ReviewExample = () => {
   const sampleReviews = [
     {
       id: 1,
@@ -94,6 +94,6 @@ const ReviewExample = () => {
       ))}
     </div>
   );
-};
+};*/
 
-export default ReviewExample;
+export default Review;
