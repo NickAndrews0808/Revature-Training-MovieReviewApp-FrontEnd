@@ -8,12 +8,15 @@ import NavLinks from './components/NavLinks'
 import MovieDetail from './pages/Movie/MovieDetail'
 import './pages/Dashboard/Dashboard.css'
 import Reviews from './pages/Review/Reviews'  // Add this import
+import { WatchlistProvider } from './pages/Watchlist/WatchlistContext'
+import Watchlist from './pages/Watchlist/Watchlist'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
+    <WatchlistProvider>
       <BrowserRouter>
         <header className="dashboard-header">
           <h1>MovieReview</h1>
@@ -38,8 +41,10 @@ function App() {
           <Route path="/Movielist" element={<MovieList />} />
           <Route path="/MovieDetail/:id" element={<MovieDetail />}/>
           <Route path="/Reviews" element={<Reviews />} />
+          <Route path="/Watchlist" element={<Watchlist />} />
         </Routes>
       </BrowserRouter>
+    </WatchlistProvider>
     </>
   );
 }

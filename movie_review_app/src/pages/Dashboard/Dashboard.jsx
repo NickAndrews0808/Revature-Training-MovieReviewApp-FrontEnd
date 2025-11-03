@@ -2,8 +2,11 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Dashboard.css'
 import NavLinks from '../../components/NavLinks';
+import {useWatchlist} from "../Watchlist/WatchlistContext"
+
 function Dashboard(){
     const [movies, setMovies] = useState([]);
+    const{addToWatchlist}=useWatchlist();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -71,6 +74,16 @@ function Dashboard(){
                             View
                             </button>
                         </Link>
+                        <button className="btn btn-warning btn-sm" style={{ marginLeft: "10px" }} onClick={() => addToWatchlist({
+                            id: movie.id,
+                            name: movie.name,         // map title -> name
+                            imageUrl: movie.imageUrl,     // map image -> imageUrl
+                            genre: movie.genre,
+                            year: movie.year,
+                            averageRating: movie.averageRating
+                        })}>
+                            + Watchlist
+                        </button>
                     </div>
                     </td>
                 </tr>
