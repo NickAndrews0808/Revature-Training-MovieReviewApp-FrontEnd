@@ -1,9 +1,10 @@
-import LoginForm from '../../components/auth/LoginForm';
-import './Login.css';
+
+import LoginForm from "../../components/auth/LoginForm";
+import "./Login.css";
 
 export default function Login() {
   return (
-    <div >
+    <div className="login-page">
       <LoginForm />
     </div>
   );
