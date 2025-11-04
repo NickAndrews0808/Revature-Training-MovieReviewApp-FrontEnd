@@ -6,7 +6,8 @@ export const API_ENDPOINTS={
     REGISTER:"/users/create",
     LOGIN:"/auth/login",
     LOGOUT:"/auth/logout",
-    DASHBOARD:"/api/movies"
+    DASHBOARD:"/api/movies",
+    MOVIEDETAIL:"/api/movies"
 }
 
 export const STORAGE_KEYS={

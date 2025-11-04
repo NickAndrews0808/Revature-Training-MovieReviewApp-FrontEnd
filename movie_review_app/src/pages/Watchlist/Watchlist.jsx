@@ -56,6 +56,7 @@ export default function Watchlist() {
                         <button
                             onClick={() => removeWatchlist(movie.id)}
                             className="btn btn-outline-danger btn-sm"
+                            style={{ marginLeft: "10px" }}
                         >
                             Remove
                         </button>
