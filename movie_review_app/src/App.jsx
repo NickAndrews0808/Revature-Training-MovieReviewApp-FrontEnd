@@ -7,7 +7,9 @@ import MovieList from './pages/Movie/MovieList'
 import NavLinks from './components/NavLinks'
 import MovieDetail from './pages/Movie/MovieDetail'
 import './pages/Dashboard/Dashboard.css'
-import Reviews from './pages/Review/Reviews'
+import Reviews from './pages/Review/Reviews'  // Add this import
+import { WatchlistProvider } from './pages/Watchlist/WatchlistContext'
+import Watchlist from './pages/Watchlist/Watchlist'
 import Login from './pages/Login/Login'
 import Register from './pages/Register/Register'
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.jsx';
@@ -23,7 +25,8 @@ function AppContent() {
     const logout = () => {
       authService.logout();
       setIsAuthenticated(false);
-      window.location.href = '/login';
+      //window.location.href = '/login';
+      navigate('/login');
     };
 
   return (
@@ -81,9 +84,11 @@ function AppContent() {
 
 function App() {
   return (
-    <BrowserRouter>
-      <AppContent />
-    </BrowserRouter>
+    <WatchlistProvider>
+      <BrowserRouter>
+        <AppContent />
+      </BrowserRouter>
+    </WatchlistProvider>
   );
 }
 
