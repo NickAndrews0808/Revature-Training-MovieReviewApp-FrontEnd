@@ -24,8 +24,8 @@ function Dashboard() {
                 const data = await userService.getMovieList();
                 setMovies(data);
             } catch (error) {
-                console.error("Failed to get movies: ", err);
-                setError(err.message || "Failed to load movies");
+                console.error("Failed to get movies: ", error);
+                setError(error.message || "Failed to load movies");
                 setError(error.message);
                 throw error;
             } finally {
