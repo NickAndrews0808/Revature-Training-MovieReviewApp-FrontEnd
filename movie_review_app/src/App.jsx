@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import './App.css'
-import { BrowserRouter, Route, Routes, Link, Navigate } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import Profile from './pages/Profile/Profile'
 import Dashboard from './pages/Dashboard/Dashboard'
 import MovieList from './pages/Movie/MovieList'
@@ -10,20 +10,35 @@ import './pages/Dashboard/Dashboard.css'
 import Reviews from './pages/Review/Reviews'  // Add this import
 import { WatchlistProvider } from './pages/Watchlist/WatchlistContext'
 import Watchlist from './pages/Watchlist/Watchlist'
+import Login from './pages/Login/Login'
+import Register from './pages/Register/Register'
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.jsx';
+import { authService } from './api/services/authService.js'
 
-function App() {
-  const [count, setCount] = useState(0)
+function AppContent() {
+  const location = useLocation();
+  const navigate=useNavigate();
+  const [isAuthenticated, setIsAuthenticated] = useState(authService.isAuthenticated());
+  
+  const noHeaderRoutes = ['/login', '/register'];
+  const hideHeader = noHeaderRoutes.includes(location.pathname);
+    const logout = () => {
+      authService.logout();
+      setIsAuthenticated(false);
+      //window.location.href = '/login';
+      navigate('/login');
+    };
 
   return (
     <>
-    <WatchlistProvider>
-      <BrowserRouter>
+      {!hideHeader && (
         <header className="dashboard-header">
           <h1>MovieReview</h1>
           <nav>
             <NavLinks />
           </nav>
-          <input className="search-bar" placeholder="Search movies..." />
+          <input id="search" className="search-bar" placeholder="Search movies..." />
+          <button className='button' onClick={logout}>Logout</button>
           <Link to="/Profile" className='profile-image-link'>
             <img
               src = "/images/Profile.jpg"
@@ -33,19 +48,47 @@ function App() {
           </Link>
           
         </header>
-      
-        <Routes>
-          <Route path="/" element={<Navigate to="/Dashboard" replace />} />
-          <Route path="/Profile" element={<Profile />} />
-          <Route path="/Dashboard" element={<Dashboard />} />
-          <Route path="/Movielist" element={<MovieList />} />
-          <Route path="/MovieDetail/:id" element={<MovieDetail />}/>
-          <Route path="/Reviews" element={<Reviews />} />
-          <Route path="/Watchlist" element={<Watchlist />} />
-        </Routes>
+      )}
+
+      <Routes>
+        <Route path="/" element={
+          <ProtectedRoute>
+            <Navigate to="/Dashboard" replace />
+          </ProtectedRoute>} />
+        <Route path="/Profile" element={
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>} />
+        <Route path="/Dashboard" element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>} />
+        <Route path="/Movielist" element={
+          <ProtectedRoute>
+            <MovieList />
+          </ProtectedRoute>} />
+        <Route path="/MovieDetail/:id" element={
+          <ProtectedRoute>
+            <MovieDetail />
+          </ProtectedRoute>} />
+        <Route path="/Reviews" element={
+          <ProtectedRoute>
+            <Reviews />
+          </ProtectedRoute>} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
+    </>
+  );
+}
+
+function App() {
+  return (
+    <WatchlistProvider>
+      <BrowserRouter>
+        <AppContent />
       </BrowserRouter>
     </WatchlistProvider>
-    </>
   );
 }
 

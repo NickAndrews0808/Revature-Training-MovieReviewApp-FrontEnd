@@ -53,3 +53,8 @@ header {
   justify-content: flex-start;
   padding: 10px 20px;
 }
+
+.button{
+  background-color: #343538;
+  border-radius: 22px;
+}

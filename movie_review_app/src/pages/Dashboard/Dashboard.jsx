@@ -3,26 +3,40 @@ import { Link } from 'react-router-dom';
 import './Dashboard.css'
 import NavLinks from '../../components/NavLinks';
 import {useWatchlist} from "../Watchlist/WatchlistContext"
-
-function Dashboard(){
+import axiosInstance from '../../api/axios';
+import { API_ENDPOINTS } from '../../api/endpoints';
+import { userService } from '../../api/services/userService';
+function Dashboard() {
     const [movies, setMovies] = useState([]);
     const{addToWatchlist}=useWatchlist();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetch('http://localhost:8087/api/movies')
-            .then(res => {
-                if (!res.ok) throw new Error('Failed to fetch movies');
-                return res.json();
-            })
-            .then(data => setMovies(data))
-            .catch(err => setError(err.message))
-            .finally(() => setLoading(false));
+        // fetch('http://localhost:8087/api/movies')
+        //     .then(res => {
+        //         if (!res.ok) throw new Error('Failed to fetch movies');
+        //         return res.json();
+        //     })
+        //     .then(data => setMovies(data))
+        //     .catch(err => setError(err.message))
+        //     .finally(() => setLoading(false));
+        const getMovieList = async () => {
+            try {
+                const data = await userService.getMovieList();
+                setMovies(data);
+            } catch (error) {
+                console.error("Failed to get movies: ", error);
+                setError(error.message || "Failed to load movies");
+            } finally {
+                setLoading(false);
+            }
+        };
+        getMovieList();
     }, []);
 
     const sortedMovies = [...movies].sort((a, b) => b.averageRating - a.averageRating);
-    const topMovies = sortedMovies.slice(0,5);
+    const topMovies = sortedMovies.slice(0, 5);
 
     if (loading) return <p>Loading movies...</p>;
     if (error) return <p>Error: {error}</p>;
@@ -89,9 +103,8 @@ function Dashboard(){
                 </tr>
                 ))}
                 </tbody>
-
-                </table>
-            </div>
+                    </table>
+                </div>
             </section>
         </div>
     );
