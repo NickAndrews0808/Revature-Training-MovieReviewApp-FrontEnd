@@ -42,11 +42,11 @@ body {
 }
 
 .search-bar {
-    margin-right: -500px;
+    /* margin-right: 90%; */
     border: 1px solid var(--border);
     border-radius: 99px;
-    padding: 1rem 15rem;
-    width: 100px;
+    padding: 1rem 10rem;
+    width: 5%;
 }
 
 .stats-section {

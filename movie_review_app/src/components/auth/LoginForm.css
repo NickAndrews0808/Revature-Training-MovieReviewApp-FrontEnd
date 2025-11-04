@@ -1,37 +1,69 @@
-.login-form {
-  width: 100%;
-}
-
-.google-btn {
+/* Center the login card */
+.login-container {
   display: flex;
-  align-items: center;
   justify-content: center;
-  gap: 12px;
-  width: 100%;
-  padding: 14px 24px;
-  background: white;
-  border: 2px solid #e2e8f0;
+  align-items: center;
+  height: 100vh;
+  background-color: #f9fafb;
+}
+
+/* Card styling */
+.login-card {
+  background: #fff;
+  padding: 2.5rem;
   border-radius: 12px;
-  font-size: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 360px;
+  text-align: left;
+}
+
+.login-card h2 {
+  color: #111;
+  margin-bottom: 0.5rem;
+}
+
+.login-card p {
+  color: #6b7280;
+  font-size: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.login-card label {
+  display: block;
+  color: #374151;
+  margin-bottom: 0.3rem;
   font-weight: 500;
-  color: #2d3748;
+}
+
+.login-card input {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 1rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  background-color: #f9fafb;
+  font-size: 0.95rem;
+  color: #374151;
+}
+
+.login-card input:focus {
+  outline: none;
+  border-color: #4f46e5;
+  background-color: #fff;
+}
+
+.login-card button {
+  width: 100%;
+  padding: 10px 0;
+  background-color: #11111b;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: background 0.3s ease;
 }
 
-.google-btn:hover {
-  background: #f7fafc;
-  border-color: #cbd5e0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-  transform: translateY(-2px);
-}
-
-.google-btn:active {
-  transform: translateY(0);
-}
-
-.google-icon {
-  width: 20px;
-  height: 20px;
+.login-card button:hover {
+  background-color: #1e1e2f;
 }
