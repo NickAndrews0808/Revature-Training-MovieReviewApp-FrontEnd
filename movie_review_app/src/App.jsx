@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import './App.css'
-import { BrowserRouter, Route, Routes, Link, Navigate, useLocation } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import Profile from './pages/Profile/Profile'
 import Dashboard from './pages/Dashboard/Dashboard'
 import MovieList from './pages/Movie/MovieList'
@@ -11,11 +11,20 @@ import Reviews from './pages/Review/Reviews'
 import Login from './pages/Login/Login'
 import Register from './pages/Register/Register'
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.jsx';
+import { authService } from './api/services/authService.js'
 
 function AppContent() {
   const location = useLocation();
+  const navigate=useNavigate();
+  const [isAuthenticated, setIsAuthenticated] = useState(authService.isAuthenticated());
+  
   const noHeaderRoutes = ['/login', '/register'];
   const hideHeader = noHeaderRoutes.includes(location.pathname);
+    const logout = () => {
+      authService.logout();
+      setIsAuthenticated(false);
+      window.location.href = '/login';
+    };
 
   return (
     <>
@@ -25,7 +34,8 @@ function AppContent() {
           <nav>
             <NavLinks />
           </nav>
-          <input className="search-bar" placeholder="Search movies..." />
+          <input id="search" className="search-bar" placeholder="Search movies..." />
+          <button className='button' onClick={logout}>Logout</button>
           <Link to="/Profile" className='profile-image-link'>
             <img
               src = "/images/Profile.jpg"
