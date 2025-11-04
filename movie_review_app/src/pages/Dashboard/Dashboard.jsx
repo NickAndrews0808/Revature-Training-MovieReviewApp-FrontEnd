@@ -28,8 +28,7 @@ function Dashboard() {
             } catch (error) {
                 console.error("Failed to get movies: ", error);
                 setError(error.message || "Failed to load movies");
-                setError(error.message);
-                throw error;
+                
             } finally {
                 setLoading(false);
             }
