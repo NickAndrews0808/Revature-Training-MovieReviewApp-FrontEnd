@@ -2,20 +2,31 @@ import { useEffect, useState } from "react";
 import "../Dashboard/Dashboard.css";
 import MovieDetail from "./MovieDetail";
 import { Link } from "react-router-dom";
+import { userService } from "../../api/services/userService";
+import {useWatchlist} from "../Watchlist/WatchlistContext"
 
 function MovieList() {
     const [movies, setMovies] = useState([]);
+    const{addToWatchlist}=useWatchlist();
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
     useEffect(() => {
-        fetch("http://localhost:8087/api/movies")
-        .then((res) => {
-            if (!res.ok) {
-            throw new Error("Failed to fetch movies");
+        const getMovieList = async () => {
+            try {
+                const data = await userService.getMovieList();
+                setMovies(data);
+            } catch (err) {
+                console.error("Failed to get movies: ", err);
+                setError(err.message || "Failed to load movies");
+            } finally {
+                setLoading(false);
             }
-            return res.json();
-        })
-        .then((data) => setMovies(data))
-        .catch((err) => console.error(err));
+        };
+        getMovieList();
     }, []);
+
+
 
     //Track sort order state
     const [sortAsc, setSortAsc] = useState(true);
@@ -76,9 +87,22 @@ function MovieList() {
                     <td>
                         <div className="d-flex gap-2">
                         <button className="btn btn-primary btn-sm">+ Add Review</button>
-                        <Link to={`/MovieDetail/${movie.id}`}>
+                        <Link 
+                        to={`/Moviedetail/${movie.id}`} 
+                        state={{ movie }}
+                        >
                             <button className="btn btn-outline-secondary btn-sm">View</button>
                         </Link>
+                        <button className="btn btn-warning btn-sm" style={{ marginLeft: "10px" }} onClick={() => addToWatchlist({
+                            id: movie.id,
+                            name: movie.name,         // map title -> name
+                            imageUrl: movie.imageUrl,     // map image -> imageUrl
+                            genre: movie.genre,
+                            year: movie.year,
+                            averageRating: movie.averageRating
+                        })}>
+                            + Watchlist
+                        </button>
 
                         </div>
                     </td>
