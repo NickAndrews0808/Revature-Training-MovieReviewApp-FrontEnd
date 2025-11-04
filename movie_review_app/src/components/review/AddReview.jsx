@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import './AddReview.css';
 
-const AddReview = ({ onSubmit, movies }) => {
+const AddReview = ({ onSubmit, movies, hideMovieSelector = false }) => {
   const [selectedMovie, setSelectedMovie] = useState('');
   const [movieInput, setMovieInput] = useState('');
   const [showDropdown, setShowDropdown] = useState(false);
-  const [filteredMovies, setFilteredMovies] = useState(movies);
+  const [filteredMovies, setFilteredMovies] = useState(movies || []);
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const [reviewText, setReviewText] = useState('');
@@ -49,7 +49,7 @@ const AddReview = ({ onSubmit, movies }) => {
   const validateForm = () => {
     const newErrors = {};
     
-    if (!selectedMovie) {
+    if (!hideMovieSelector && !selectedMovie) {
       newErrors.movie = 'Please select a movie';
     }
     
@@ -74,10 +74,10 @@ const AddReview = ({ onSubmit, movies }) => {
         movieId: selectedMovie,
         rating: rating,
         reviewText: reviewText.trim(),
-        date: new Date().toISOString()
+        date: new Date().toISOString().split('T')[0] // Format as YYYY-MM-DD
       };
       
-      // Call the onSubmit prop function (would connect to backend)
+      // Call the onSubmit prop function
       if (onSubmit) {
         onSubmit(reviewData);
       }
@@ -88,7 +88,9 @@ const AddReview = ({ onSubmit, movies }) => {
       setRating(0);
       setReviewText('');
       setErrors({});
-      setFilteredMovies(movies);
+      if (movies) {
+        setFilteredMovies(movies);
+      }
     }
   };
 
@@ -117,44 +119,46 @@ const AddReview = ({ onSubmit, movies }) => {
       <h2 className="add-review-title">Write a Review</h2>
       
       <div className="add-review-form">
-        {/* Movie Selection with Autocomplete */}
-        <div className="form-group">
-          <label htmlFor="movie-input" className="form-label">
-            Select Movie
-          </label>
-          <div className="autocomplete-wrapper">
-            <input
-              id="movie-input"
-              type="text"
-              className={`form-input ${errors.movie ? 'input-error' : ''}`}
-              placeholder="Type to search movies..."
-              value={movieInput}
-              onChange={handleMovieInputChange}
-              onFocus={handleInputFocus}
-              onBlur={handleInputBlur}
-              autoComplete="off"
-            />
-            {showDropdown && filteredMovies.length > 0 && (
-              <ul className="autocomplete-dropdown">
-                {filteredMovies.map((movie) => (
-                  <li
-                    key={movie.id}
-                    className="autocomplete-item"
-                    onClick={() => handleMovieSelect(movie)}
-                  >
-                    {movie.title}
-                  </li>
-                ))}
-              </ul>
-            )}
-            {showDropdown && filteredMovies.length === 0 && movieInput && (
-              <div className="autocomplete-no-results">
-                No movies found
-              </div>
-            )}
+        {/* Movie Selection with Autocomplete - Only show if not hidden */}
+        {!hideMovieSelector && movies && (
+          <div className="form-group">
+            <label htmlFor="movie-input" className="form-label">
+              Select Movie
+            </label>
+            <div className="autocomplete-wrapper">
+              <input
+                id="movie-input"
+                type="text"
+                className={`form-input ${errors.movie ? 'input-error' : ''}`}
+                placeholder="Type to search movies..."
+                value={movieInput}
+                onChange={handleMovieInputChange}
+                onFocus={handleInputFocus}
+                onBlur={handleInputBlur}
+                autoComplete="off"
+              />
+              {showDropdown && filteredMovies.length > 0 && (
+                <ul className="autocomplete-dropdown">
+                  {filteredMovies.map((movie) => (
+                    <li
+                      key={movie.id}
+                      className="autocomplete-item"
+                      onClick={() => handleMovieSelect(movie)}
+                    >
+                      {movie.title}
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {showDropdown && filteredMovies.length === 0 && movieInput && (
+                <div className="autocomplete-no-results">
+                  No movies found
+                </div>
+              )}
+            </div>
+            {errors.movie && <span className="error-message">{errors.movie}</span>}
           </div>
-          {errors.movie && <span className="error-message">{errors.movie}</span>}
-        </div>
+        )}
 
         {/* Star Rating */}
         <div className="form-group">
@@ -198,58 +202,4 @@ const AddReview = ({ onSubmit, movies }) => {
   );
 };
 
-// Example usage with demo
-const AddReviewExample = () => {
-  // Sample movie data (would come from your backend)
-  const sampleMovies = [
-    { id: 1, title: 'The Shawshank Redemption' },
-    { id: 2, title: 'The Godfather' },
-    { id: 3, title: 'The Dark Knight' },
-    { id: 4, title: 'Pulp Fiction' },
-    { id: 5, title: 'Inception' },
-    { id: 6, title: 'The Matrix' },
-    { id: 7, title: 'Forrest Gump' },
-    { id: 8, title: 'Interstellar' },
-    { id: 9, title: 'The Prestige' },
-    { id: 10, title: 'The Departed' }
-  ];
-
-  const [submittedReviews, setSubmittedReviews] = useState([]);
-
-  const handleReviewSubmit = (reviewData) => {
-    const movie = sampleMovies.find(m => m.id === parseInt(reviewData.movieId));
-    const newReview = {
-      ...reviewData,
-      movieTitle: movie.title,
-      id: Date.now()
-    };
-    setSubmittedReviews([newReview, ...submittedReviews]);
-    alert('Review submitted successfully!');
-  };
-
-  return (
-    <div style={{ maxWidth: '800px', margin: '0 auto', padding: '20px', backgroundColor: '#f9fafb', minHeight: '100vh' }}>
-      <AddReview movies={sampleMovies} onSubmit={handleReviewSubmit} />
-      
-      {submittedReviews.length > 0 && (
-        <div style={{ marginTop: '40px' }}>
-          <h3 style={{ fontSize: '24px', marginBottom: '20px', color: '#1f2937' }}>Recent Submissions</h3>
-          {submittedReviews.map((review) => (
-            <div key={review.id} style={{ 
-              background: '#ffffff', 
-              padding: '15px', 
-              marginBottom: '10px',
-              borderRadius: '8px',
-              boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
-            }}>
-              <strong style={{ color: '#1f2937' }}>{review.movieTitle}</strong> - {review.rating} stars
-              <p style={{ marginTop: '8px', color: '#4b5563' }}>{review.reviewText}</p>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
-};
-
-export default AddReviewExample;
+export default AddReview;
