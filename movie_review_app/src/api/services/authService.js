@@ -16,6 +16,9 @@ export const authService = {
 
   logout: () => {
     localStorage.removeItem(STORAGE_KEYS.ACCESS_TOKEN);
+    localStorage.removeItem("user_id");
+    localStorage.removeItem("user_name");
+    localStorage.removeItem("user_email");
   },
 
   isAuthenticated: () => {

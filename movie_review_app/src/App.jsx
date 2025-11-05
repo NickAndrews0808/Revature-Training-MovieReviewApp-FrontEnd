@@ -14,20 +14,21 @@ import Login from './pages/Login/Login'
 import Register from './pages/Register/Register'
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.jsx';
 import { authService } from './api/services/authService.js'
+import ProfileEdit from './pages/ProfileEdit/ProfileEdit.jsx'
 
 function AppContent() {
   const location = useLocation();
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(authService.isAuthenticated());
-  
+
   const noHeaderRoutes = ['/login', '/register'];
   const hideHeader = noHeaderRoutes.includes(location.pathname);
-    const logout = () => {
-      authService.logout();
-      setIsAuthenticated(false);
-      //window.location.href = '/login';
-      navigate('/login');
-    };
+  const logout = () => {
+    authService.logout();
+    setIsAuthenticated(false);
+    //window.location.href = '/login';
+    navigate('/login');
+  };
 
   return (
     <>
@@ -41,12 +42,12 @@ function AppContent() {
           <button className='button' onClick={logout}>Logout</button>
           <Link to="/Profile" className='profile-image-link'>
             <img
-              src = "/images/Profile.jpg"
+              src="/images/Profile.jpg"
               alt='Profile'
               className='profile-image'
             />
           </Link>
-          
+
         </header>
       )}
 
@@ -75,6 +76,11 @@ function AppContent() {
           <ProtectedRoute>
             <Reviews />
           </ProtectedRoute>} />
+        <Route path="/ProfileEdit" element={
+          <ProtectedRoute>
+            <ProfileEdit/>
+          </ProtectedRoute>
+        }/>
           <Route path="/Watchlist" element={
             <ProtectedRoute>
               <Watchlist />

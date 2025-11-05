@@ -13,14 +13,7 @@ function Dashboard() {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        // fetch('http://localhost:8087/api/movies')
-        //     .then(res => {
-        //         if (!res.ok) throw new Error('Failed to fetch movies');
-        //         return res.json();
-        //     })
-        //     .then(data => setMovies(data))
-        //     .catch(err => setError(err.message))
-        //     .finally(() => setLoading(false));
+   
         const getMovieList = async () => {
             try {
                 const data = await userService.getMovieList();
