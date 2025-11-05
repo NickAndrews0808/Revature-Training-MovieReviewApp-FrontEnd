@@ -76,7 +76,9 @@ function Dashboard() {
                     {/*<td>{movie.reviews.toLocaleString()}</td>*/}
                     <td>
                     <div className="d-flex gap-2">
-                        <button className="btn btn-primary btn-sm">+ Add Review</button>
+                        <Link to={`/Reviews`}>
+                            <button className="btn btn-primary btn-sm">+ Add Review</button>
+                        </Link>
                         <Link to={`/MovieDetail/${movie.id}`}>
                             <button className="btn btn-outline-secondary btn-sm">
                             View

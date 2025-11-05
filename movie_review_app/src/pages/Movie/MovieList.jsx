@@ -86,11 +86,10 @@ function MovieList() {
                     <td>⭐ {movie.averageRating ?? "N/A"}</td>
                     <td>
                         <div className="d-flex gap-2">
-                        <button className="btn btn-primary btn-sm">+ Add Review</button>
-                        <Link 
-                        to={`/Moviedetail/${movie.id}`} 
-                        state={{ movie }}
-                        >
+                        <Link to={`/Reviews`}>
+                            <button className="btn btn-primary btn-sm">+ Add Review</button>
+                        </Link>
+                        <Link to={`/MovieDetail/${movie.id}`}>
                             <button className="btn btn-outline-secondary btn-sm">View</button>
                         </Link>
                         <button className="btn btn-warning btn-sm" style={{ marginLeft: "10px" }} onClick={() => addToWatchlist({
