@@ -68,7 +68,7 @@ function AppContent() {
           <ProtectedRoute>
             <MovieList />
           </ProtectedRoute>} />
-        <Route path="/MovieDetail/:id" element={
+        <Route path="/Moviedetail/:id" element={
           <ProtectedRoute>
             <MovieDetail />
           </ProtectedRoute>} />
@@ -81,6 +81,11 @@ function AppContent() {
             <ProfileEdit/>
           </ProtectedRoute>
         }/>
+          <Route path="/Watchlist" element={
+            <ProtectedRoute>
+              <Watchlist />
+            </ProtectedRoute>
+          } />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>

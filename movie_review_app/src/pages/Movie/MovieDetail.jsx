@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import Review from "../../components/review/Review";
 import "../Dashboard/Dashboard.css";
 import "./MovieDetail.css";
+import { userService } from "../../api/services/userService";
 // Added a MovieDetail.css but we can use bootstrap if we want
 const MovieDetail = () => {
     const { id } = useParams(); // get the movie ID from the URL
@@ -10,26 +11,22 @@ const MovieDetail = () => {
     const [reviews, setReviews] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    
 
     // Hey Justin I added this temporarily to see what looks good
     useEffect(() => {
-        // TODO: Replace with actual API call to backend
-        // fetch(`/api/movies/${id}`)
-        // fetch(`/api/movies/${id}/reviews`)
-        
-        // Fake API call simulation
-        const fetchMovieAndReviews = async () => {
-        try {
-            setLoading(true);
-            setError(null);
-            // Fetch movie details
-            const movieRes = await fetch(`http://localhost:8087/api/movies/${id}`);
-            if (!movieRes.ok) throw new Error("Failed to fetch movie");
-            const movieData = await movieRes.json();
-            setMovie(movieData);
-            // Simulate fetching reviews from backend
-            // In production, this would be: const response = await fetch(`/api/movies/${id}/reviews`);
-            const mockReviews = [
+        const getMovieDetails = async () => {
+            try {
+                const data = await userService.getMovieDetails(id);
+                setMovie(data); // Optional if reviews are included
+            } catch (error) {
+                console.error("Failed to get movie: ", error);
+                setError(error.message || "Failed to load movie");
+            } finally {
+                setLoading(false);
+            }
+        };
+        const mockReviews = [
             {
                 id: 1,
                 rating: 5,
@@ -46,15 +43,9 @@ const MovieDetail = () => {
             );
             
             setReviews(sortedReviews);
-            setLoading(false);
-        } catch (error) {
-            console.error('Error fetching reviews:', error);
-            setLoading(false);
-        }
-        };
+        getMovieDetails();
+    }, [id]);
 
-        fetchMovieAndReviews();
-    }, [id]); // Re-fetch when movie ID changes
 
     return (
         <div className="movie-container">
