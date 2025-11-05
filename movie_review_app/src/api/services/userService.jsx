@@ -19,5 +19,22 @@ export const userService={
     getMovieDetails:async(id)=>{
         const response = await axiosInstance.get(`${API_ENDPOINTS.MOVIEDETAIL}/${id}`);
         return response.data;
+    },
+
+    getMovieReviews: async (movieId) => {
+        const response = await axiosInstance.get(`${API_ENDPOINTS.MOVIEREVIEWS}/${movieId}`);
+        return response.data;
+    },
+
+
+    postMovieReview: async (movieDetails, userData) => {
+        const response = await axiosInstance.post(`${API_ENDPOINTS.REVIEW}`, {
+            movieId: movieDetails.id,
+            username: userData.username,
+            rating: userData.rating,
+            review: userData.reviewText,
+        });
+        return response.data;
     }
+
 }
