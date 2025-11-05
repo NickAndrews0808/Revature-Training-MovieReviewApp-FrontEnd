@@ -11,8 +11,11 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (credentials) => {
     try {
-      await authService.login(credentials);
+      const resp=await authService.login(credentials);
       setIsAuthenticated(true);
+      localStorage.setItem("user_id",resp.user.id);
+      localStorage.setItem("user_name",resp.user.username);
+      localStorage.setItem("user_email",resp.user.email);
     } catch (error) {
       console.error("Login failed:", error);
       throw error; // So LoginForm can display the error message
