@@ -14,6 +14,7 @@ export const userService={
                 email: userData.email
             }
         );
+        return response.data;
     },
     getMovieDetails:async(id)=>{
         const response = await axiosInstance.get(`${API_ENDPOINTS.MOVIEDETAIL}/${id}`);
