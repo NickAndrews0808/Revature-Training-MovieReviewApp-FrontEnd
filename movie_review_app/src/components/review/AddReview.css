@@ -2,11 +2,14 @@
 .add-review-container {
   background-color: #ffffff;
   border-radius: 12px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 32px;
-  max-width: 600px;
-  margin: 0 auto;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+  padding: 10px 200px;
+  width: 100%;           /* take full width of parent */
+  max-width: 900px;      /* constrain width to something readable */
+  box-sizing: border-box; /* include padding in width */
+  margin: 0 auto;        /* center horizontally */
 }
+
 
 .add-review-title {
   font-size: 28px;
@@ -20,6 +23,7 @@
 .add-review-form {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 24px;
 }
 
@@ -45,15 +49,18 @@
 
 /* Movie Input Field */
 .form-input {
-  width: 100%;
+  width: 25vw;          /* 50% of the viewport width */
+  max-width: 1400px;    /* optional: prevent it from going too wide on huge screens */
+  margin: 0 auto;       /* center the input */
   padding: 12px;
   font-size: 16px;
   border: 2px solid #d1d5db;
   border-radius: 8px;
-  background-color: #ffffff;
-  color: #1f2937;
-  transition: border-color 0.2s, box-shadow 0.2s;
   box-sizing: border-box;
+  display: block; 
+  background-color: #f3f4f6;
+  color: #1f2937;  
+  text-align: center;
 }
 
 .form-input:focus {
@@ -64,6 +71,7 @@
 
 .form-input::placeholder {
   color: #9ca3af;
+  text-align: center;
 }
 
 /* Autocomplete Dropdown */
@@ -142,9 +150,12 @@
 /* Star Rating */
 .star-rating-container {
   display: flex;
+  justify-content: center;  /* centers the stars horizontally */
   align-items: center;
-  gap: 12px;
+  gap: 10px;
+  margin-bottom: 0px;      /* optional spacing from textarea */
 }
+
 
 .star-button {
   background: none;
@@ -177,16 +188,19 @@
 
 /* Review Textarea */
 .form-textarea {
-  width: 100%;
+  width: 40vw;        /* 90% of the viewport width */
+  max-width: 1400px;  /* optional: prevent it from going too wide on huge screens */
+  margin: 0 auto;     /* center it */
   padding: 12px;
   font-size: 16px;
   border: 2px solid #d1d5db;
   border-radius: 8px;
   resize: vertical;
-  font-family: inherit;
   line-height: 1.5;
-  transition: border-color 0.2s, box-shadow 0.2s;
   box-sizing: border-box;
+  display: block;     /* ensure margin auto centers it */
+  background-color: #f3f4f6;
+  color: #1f2937;
 }
 
 .form-textarea:focus {
@@ -234,6 +248,7 @@
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.2s, transform 0.1s;
+  margin-bottom: 24px;  /* extra space under button */
 }
 
 .submit-button:hover {

@@ -26,6 +26,11 @@ export const userService={
         return response.data;
     },
 
+    getAllReviews: async () => {
+        const response = await axiosInstance.get(`${API_ENDPOINTS.ALLREVIEWS}`);
+        return response.data;
+    },
+
 
     postMovieReview: async (movieDetails, userData) => {
         const response = await axiosInstance.post(`${API_ENDPOINTS.REVIEW}`, {

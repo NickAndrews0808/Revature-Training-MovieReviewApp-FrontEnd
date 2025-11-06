@@ -25,7 +25,17 @@ const MovieDetail = () => {
                 console.log("Reviews API response:", reviewsData);
 
                 // Wrap single object in array if necessary
-                setReviews(Array.isArray(reviewsData) ? reviewsData : [reviewsData]);
+                const reviewArray = Array.isArray(reviewsData) ? reviewsData : [reviewsData];
+
+                // Normalize date strings for JS Date parsing
+                const normalizedReviews = reviewArray.map((r) => ({
+                    ...r,
+                    createdOn: r.createdOn
+                        ? r.createdOn.split(".")[0] + "Z" // truncate microseconds, append Z for UTC
+                        : r.date,
+                }));
+
+                setReviews(normalizedReviews);
             } catch (err) {
                 console.error("Error fetching movie or reviews:", err);
                 setError("Failed to load movie details");
@@ -87,15 +97,26 @@ const MovieDetail = () => {
 
                 {reviews.length > 0 ? (
                     <div className="reviews-list">
-                        {reviews.map((review) => (
-                            <Review
-                                key={review.id}
-                                rating={review.rating}
-                                date={review.createdOn || review.date}
-                                username={review.username}
-                                reviewText={review.review || review.reviewText}
-                            />
-                        ))}
+                        {reviews.map((review) => {
+                            // Normalize date: truncate microseconds to milliseconds
+                            let cleanedDate = review.createdAt;
+                            if (cleanedDate) {
+                                const dotIndex = cleanedDate.indexOf('.');
+                                if (dotIndex !== -1) {
+                                    cleanedDate = cleanedDate.slice(0, dotIndex + 4); // keep 3 digits for ms
+                                }
+                            }
+
+                            return (
+                                <Review
+                                    key={review.id}
+                                    rating={review.rating}
+                                    date={cleanedDate}       // <-- pass cleaned date
+                                    username={review.username}
+                                    reviewText={review.review || review.reviewText}
+                                />
+                            );
+                        })}
                     </div>
                 ) : (
                     <div className="no-reviews-message">
