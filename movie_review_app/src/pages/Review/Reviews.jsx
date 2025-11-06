@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import AddReview from '../../components/review/AddReview';
 import Review from '../../components/review/Review';
 import './Reviews.css';
+import { userService } from '../../api/services/userService';
 
 function Reviews({ movieId }) {
   const [reviews, setReviews] = useState([]);
@@ -9,70 +10,61 @@ function Reviews({ movieId }) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const getReviewsByMovie = async () => {
+    const fetchAllReviews = async () => {
       try {
-        const response = await fetch(`http://localhost:8087/api/reviews/movie/${movieId}`);
-        if (!response.ok) {
-          throw new Error('Failed to fetch reviews');
-        }
-        const data = await response.json();
-        setReviews(data);
+        const data = await userService.getAllReviews();
+        console.log("All reviews fetched:", data);
+
+        // If movieId is provided, filter for that movie
+        const filteredReviews = movieId
+          ? data.filter(review => review.movieId === movieId)
+          : data;
+
+        setReviews(filteredReviews);
       } catch (err) {
-        console.error("Failed to get reviews: ", err);
+        console.error("Failed to get reviews:", err);
         setError(err.message || "Failed to load reviews");
       } finally {
         setLoading(false);
       }
     };
 
-    if (movieId) {
-      getReviewsByMovie();
-    } else {
-      setLoading(false);
-    }
+    fetchAllReviews();
   }, [movieId]);
 
   const handleReviewSubmit = async (reviewData) => {
     try {
-      const newReview = {
-        rating: reviewData.rating,
-        date: reviewData.date,
-        username: 'CurrentUser', // Replace with actual logged-in user
-        reviewText: reviewData.reviewText,
-        movieId: movieId
-      };
+      const savedReview = await userService.postMovieReview(
+        { id: movieId },
+        {
+          username: reviewData.username || 'CurrentUser', // Replace with actual logged-in user
+          rating: reviewData.rating,
+          reviewText: reviewData.reviewText
+        }
+      );
 
-      const response = await fetch('http://localhost:8087/api/reviews', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newReview)
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to create review');
+      // Normalize date (truncate microseconds)
+      let cleanedDate = savedReview.createdAt;
+      if (cleanedDate) {
+        const dotIndex = cleanedDate.indexOf('.');
+        if (dotIndex !== -1) {
+          cleanedDate = cleanedDate.slice(0, dotIndex + 4); // keep 3 digits for ms
+        }
       }
+      savedReview.date = cleanedDate;
 
-      const savedReview = await response.json();
       setReviews([savedReview, ...reviews]);
     } catch (err) {
-      console.error("Failed to create review: ", err);
+      console.error("Failed to create review:", err);
       setError(err.message || "Failed to create review");
     }
   };
 
-  if (loading) {
-    return <div className="reviews-page">Loading reviews...</div>;
-  }
-
-  if (error) {
-    return <div className="reviews-page">Error: {error}</div>;
-  }
+  if (loading) return <div className="reviews-page">Loading reviews...</div>;
+  if (error) return <div className="reviews-page">Error: {error}</div>;
 
   return (
     <div className="reviews-page">
-      {/* Don't pass movies prop since we're only reviewing one movie */}
       <AddReview onSubmit={handleReviewSubmit} hideMovieSelector={true} />
       
       <div className="reviews-list">
@@ -80,15 +72,18 @@ function Reviews({ movieId }) {
         {reviews.length === 0 ? (
           <p>No reviews yet. Be the first to add one!</p>
         ) : (
-          reviews.map(review => (
-            <Review
-              key={review.id}
-              rating={review.rating}
-              date={review.date}
-              username={review.username}
-              reviewText={review.reviewText}
-            />
-          ))
+          reviews.map(review => {
+            const displayDate = review.date || review.createdAt;
+            return (
+              <Review
+                key={review.id}
+                rating={review.rating}
+                date={displayDate}
+                username={review.username}
+                reviewText={review.reviewText || review.review}
+              />
+            );
+          })
         )}
       </div>
     </div>
