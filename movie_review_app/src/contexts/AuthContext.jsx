@@ -11,11 +11,11 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (credentials) => {
     try {
-      const resp=await authService.login(credentials);
+      const resp = await authService.login(credentials);
       setIsAuthenticated(true);
-      localStorage.setItem("user_id",resp.user.id);
-      localStorage.setItem("user_name",resp.user.username);
-      localStorage.setItem("user_email",resp.user.email);
+      localStorage.setItem("user_id", resp.user.id);
+      localStorage.setItem("user_name", resp.user.username);
+      localStorage.setItem("user_email", resp.user.email);
     } catch (error) {
       console.error("Login failed:", error);
       throw error; // So LoginForm can display the error message
@@ -24,7 +24,10 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (data) => {
     try {
-      await authService.register(data);
+      const resp = await authService.register(data);
+      localStorage.setItem("user_id", resp.user.id);
+      localStorage.setItem("user_name", resp.user.username);
+      localStorage.setItem("user_email", resp.user.email);
       setIsAuthenticated(true);
     } catch (error) {
       console.error("Registration failed:", error);
